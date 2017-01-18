@@ -6,19 +6,23 @@ def unzip(directorys):
     work_path = os.path.abspath('.')
     os.chdir(directory)
     print(filename)
+    print('unzip:'+work_path)
     code = subprocess.call(["unzip",filename])
     if code == 0:
         print("unzip success")
     else:
         print("unzip failed")
+        return False
     #: delete zip you have upzipped
     code = subprocess.call(['rm',filename])
+    os.chdir(work_path)
     if code == 0:
         print("delete zip success!")
+        return True
     else:
         print("delete zip failed!")
-    
-    os.chdir(work_path)
+        return False
+
     
 def zip(directorys,fileid):
     directory,filename = os.path.split(directorys)
@@ -29,16 +33,21 @@ def zip(directorys,fileid):
     code = subprocess.call(['zip','-r',fileid,zipfile])
     if code == 0:
         print("success zip")
+        
     else:
         print("failed zip")
+        return False
     
     #:delete file you have zipped
     code = subprocess.call(['rm','-r',zipfile])
+    os.chdir(work_path)
     if code == 0:
         print("delete file success!")
+        return True
     else:
         print("delete file failed!")
-    os.chdir(work_path)
+        return False
+
 
 def sendtoweb(directorys,taskid):
     directory,filename = os.path.split(directorys)
@@ -46,12 +55,12 @@ def sendtoweb(directorys,taskid):
     os.chdir(directory)
     filename = taskid + '.' + filename.split('.')[1]
     code = subprocess.call(['mv',filename,'/var/www/html/'])
+
+    os.chdir(work_path)
     if code == 0:
         print("Upload web success!")
+        return True
     else:
         print("Upload web failed!")
+        return False
 
-if __name__ == "__main__":
-    #unzip('workpath/joliu@s-an.org/1484575120test2.zip') 
-    #zip('workpath/joliu@s-an.org/1234567890test2.zip','22')
-    sendtoweb('workpath/joliu@s-an.org/1234567890test2.zip','22')

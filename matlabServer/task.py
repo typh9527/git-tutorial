@@ -19,8 +19,9 @@ def exectask(id):
     filename = filename.split('.')[0][10:]
     directory = os.path.join(directory,filename)
     work_path = os.path.abspath('.')
+    print(work_path)
     os.chdir(directory)
-    code = subprocess.call(['matlab','-nodesktop','-nosplash','-nojvm',r"-r 'test2;quit'"])
+    code = subprocess.call(['matlab','-nodesktop','-nosplash','-nojvm',r"-r 'main;quit'"])
     if code == 0:
         print("run success!")
     else:
@@ -33,5 +34,5 @@ def exectask(id):
     conn.close()
 
 if __name__ == '__main__':
-    exectask(22)
+    exectask(23)
     
