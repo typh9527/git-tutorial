@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 import sys
 import sendfile
+import configparser
 class MyWindow(QtWidgets.QWidget):
     def __init__(self):
         super(MyWindow,self).__init__()
@@ -11,12 +12,16 @@ class MyWindow(QtWidgets.QWidget):
         self.myButton.clicked.connect(self.msg)
 
     def msg(self):
+        config = configparser.ConfigParser()
+        config.read('log.ini')
+        host = config.get("Settings","host")
+        user_email = config.get("Settings","email")
         fileName1, filetype = QFileDialog.getOpenFileName(self,
                                     "选取文件",
                                     "/",
                                     "All Files (*);;Rar Files(*.rar)")   #设置文件扩展名过滤,注意用双分号间隔
         print(fileName1,filetype)
-        flag = sendfile.send('192.168.1.100','joliu@s-an.org',  fileName1)
+        flag = sendfile.send(host, user_email, fileName1)
 #        directory1 = QFileDialog.getExistingDirectory(self,
 #                                    "选取文件夹",
 #                                    "C:/")                                 #起始路径
