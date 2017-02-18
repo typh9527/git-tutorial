@@ -1,6 +1,6 @@
 import subprocess
 import os
-
+import sendweb
 '''
 directorys即为数据库列表中的task
 fileid，taskid为数据库列表中的id
@@ -62,19 +62,22 @@ def zip(directorys,fileid):
 def sendtoweb(directorys,taskid):
     '''移动文件到web服务器'''
     directory,filename = os.path.split(directorys)
-    #work_path = os.path.abspath('.')
-    #os.chdir(directory)
     filename = directory+'/'+taskid + '.' + filename.split('.')[1]
-    code = subprocess.call(['mv',filename,'/var/www/html/'])
-
-    #os.chdir(work_path)
-    if code == 0:
+    code = sendweb.sendtoweb('112.74.171.161',filename) 
+    if code:
         print("Upload web success!")
-        return True
     else:
         print("Upload web failed!")
         return False
+    #:删除文件
+    code = subprocess.call(['rm',filename])
+    if code == 0:
+        print('delete zip success!')
+        return True
+    else:
+        print("delete zip failed!")
+        return False
 
 if __name__ == '__main__':
-    unzip('workpath/joliu@s-an.org/1484748894test2.zip')
-    #print(sendtoweb('workpath/joliu@s-an.org/1484740759test3.zip','49'))
+    #zip('workpath/joliu@s-an.org/1484748894test2.zip','70')
+    print(sendtoweb('workpath/joliu@s-an.org/1484740759te.zip','74'))
