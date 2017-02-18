@@ -4,7 +4,7 @@ import os
 import subprocess
 def exectask(id):
     '''执行matlab程序'''
-    conn = MySQLdb.connect(host='127.0.0.1', user='root', passwd='WyrXa9')
+    conn = MySQLdb.connect(host='112.74.171.161', user='root', passwd='WyrXa9')
     cur = conn.cursor()
     conn.select_db('task_db')
     sql = 'update task_list set status = 1 where id = '+str(id)
