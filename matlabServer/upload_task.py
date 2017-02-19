@@ -1,5 +1,6 @@
 import MySQLdb
 import time
+import mylog
 
 def save_task(user_email,filename):
     '''保存数据到服务器'''
@@ -15,6 +16,7 @@ def save_task(user_email,filename):
         cur.close()
         conn.close()
     except MySQLdb as e:
+        mylog.log("MySql error","upload_task.save_task")
         print("Mysql Error%d:%s" % (e.args[0],e.args[1]))
 
 
