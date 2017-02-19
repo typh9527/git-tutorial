@@ -19,13 +19,15 @@ class MyWindow(QtWidgets.QWidget):
         host = config.get("Settings","host")
         user_email = config.get("Settings","email")
         print(user_email)
-        flag = "failed"
         fileName1, filetype = QFileDialog.getOpenFileName(self,
                                     "选取文件",
                                     "/",
-                                    "All Files (*);;Rar Files(*.rar)")   #设置文件扩展名过滤,注意用双分号间隔
-        print(fileName1,filetype)
-        flag = sendfile.send(host ,user_email , fileName1)
+                                    "Rar Files(*.zip)")   #设置文件扩展名过滤,注意用双分号间隔
+        
+        if fileName1 == '':
+            flag = False
+        else:
+            flag = sendfile.send(host ,user_email , fileName1)
 #        directory1 = QFileDialog.getExistingDirectory(self,
 #                                    "选取文件夹",
 #                                    "C:/")                                 #起始路径
