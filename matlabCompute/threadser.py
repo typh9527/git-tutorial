@@ -23,9 +23,9 @@ if __name__ == '__main__':
         lists = ListenSer.gettask(4)
         if len(lists) == 0:
             time.sleep(6)
-            print(time.asctime()+': sleep')
         else:
             for li in lists:
+                print(time.asctime())
                 my_thread = RunThread(li)
                 my_thread.start()
         
