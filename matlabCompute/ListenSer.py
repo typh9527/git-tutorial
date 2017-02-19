@@ -5,6 +5,8 @@ import time
 import smtplib_build
 import sendfile
 import os
+import time 
+
 class ListenSer():
     '''处理队列中的任务类'''
     
@@ -99,8 +101,14 @@ def run_listen(li):
         if ziptask.sendtoweb(li[1],str(li[0])):
             print(str(li[0])+' : success!')
             subject = "进度详情"
+            #:解析项目名和项目时间
+            (direct,file_name) = os.path.split(li[1])
+            start_time = file_name[0:10]
+            time_local = time.localtime(int(start_time))
+            dt = time.strftime("%Y-%m-%d %H:%M:%S",time_local)
+            project_name = file_name[10:].split('.')[0]
             #:这里的ip需要更改
-            body_text = r'<p>任务成功</p>您上传的项目结果下载地址<a href="http://112.74.171.161/'+str(li[0])+r'.zip">link</a>'
+            body_text = r'<p>任务成功</p>您于'+dt+r'上传的项目:'+project_name+r'已经结束。<br>结果下载地址<a href="http://112.74.171.161/'+str(li[0])+r'.zip">link</a></br>'
             to_email = li[2]
             smtplib_build.send_email(subject,body_text,to_email)
         else:
